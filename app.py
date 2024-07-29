@@ -1,7 +1,8 @@
 #Bagian Import dan From
 from flask import Flask, request,  jsonify, render_template
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 # import MySQLdb.cursors
 import pymysql
@@ -26,18 +27,26 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp'}
 
 # Konfigurasi MySQL
 app = Flask(__name__)
+USERNAME = 'sql6709970'
+PASSWORD = 'pwdpwd8'
+DATABASE = 'sql6709970'
+HOST = '127.0.0.1'
+PORT = '3306'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+USERNAME+':'+PASSWORD+'@'+HOST+':'+PORT+'/'+DATABASE
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'secret'
-app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'pwdpwd8'
-app.config['MYSQL_DB'] = 'sql6709970'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# app.config['MYSQL_HOST'] = '127.0.0.1'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = 'pwdpwd8'
+# app.config['MYSQL_DB'] = 'sql6709970'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['UPLOAD_FOLDER'] = './static/uploads'
 app.config['STATUS'] = ''
 app.config['HOT_AREA'] = ''
 app.config['PREDIKSI_TANGGAL'] = ''
 
-mysql = MySQL(app)
+# mysql = MySQL(app)
+db = SQLAlchemy(app)
 
 # Bagian Login Website 
 login_manager = LoginManager()
@@ -364,7 +373,8 @@ def deteksi_status(status):
 @app.route('/riwayat/<selected_data>', methods=['GET'])
 def get_riwayat(selected_data):
     if request.method == 'GET':
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor = mysql.connection.cursor(pymysql.cursors.DictCursor)
+        # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         if selected_data == 'get-history':
             cursor.execute('SELECT * FROM history')
             data = cursor.fetchall()
@@ -378,7 +388,8 @@ def get_riwayat(selected_data):
 @app.route('/update/<status>', methods=['POST'])
 def update_status(status):
     id_history = request.args['id']
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = mysql.connection.cursor(pymysql.cursors.DictCursor)
+    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM history WHERE id = %s', (id_history,))
     data_history = cursor.fetchone()
 
