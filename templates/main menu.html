@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1b95ac',
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+  <title>Sistem Monitoring Dan Pemeliharaan Prediktif Jaringan Listrik</title>
+  <link rel="icon" href="https://deviloarts.com/wp-content/uploads/2021/09/PLN-Logo-Perusahaan-Listrik-Negara.png" type="image/png">
+</head>
+
+<body>
+  <nav class="bg-primary  sticky top-0 z-50">
+    <div class="px-24  flex flex-wrap items-center justify-between p-4">
+      <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse max-sm:w-2/3">
+        <img src="https://www.charin.global/media/pages/community/pt-pln-persero/04f2cabdd1-1656674048/pln-2016-1280x-q95.png" alt="Logo" class="h-11 w-11">
+        <span class="self-center text-base font-semibold whitespace-nowrap text-white">Sistem Monitoring Dan
+          Pemeliharaan Prediktif
+          Jaringan Listrik</span>
+      </a>
+      <button data-collapse-toggle="navbar-default" type="button"
+        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        aria-controls="navbar-default" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M1 1h15M1 7h15M1 13h15" />
+        </svg>
+      </button>
+      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+        <ul
+          class="font-medium  flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
+          <li>
+            <a href="/deteksi"
+              class="flex gap-2 items-center py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-white hover:text-blue-200">
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5z" />
+                <path
+                  d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1" />
+              </svg>
+              Sistem Deteksi</a>
+          </li>
+          <li>
+            <a href="/riwayat"
+              class="flex gap-2 items-center py-2 px-3 flex text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-white hover:text-blue-200">
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" />
+              </svg>
+              Data Historis Hasil Submit</a>
+          </li>
+          <li>
+            <a href="/logout"
+            class="flex gap-2 items-center py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-white hover:text-blue-200">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              viewBox="0 0 16 16">
+              <path d="M11 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-1zM9 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-1zM5 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-1z" />
+              <path d="M8.598 1.707l-.701-.707-.707.707 1.404 1.404-.707.707z" />
+            </svg>
+              Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Ini adalah bagian menampilkan database yang mengalami kerusakan -->
+
+  <div class="px-24 py-12">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-base text-left rtl:text-right text-gray-500 border">
+        <thead class="text-xs text-white uppercase bg-primary">
+          <tr>
+            <th scope="col" class="px-6 py-3 border">
+              NAMA INSTALASI
+            </th>
+            <th scope="col" class="px-6 py-3 border cursor-pointer flex items-center" onclick="sortTable(1)">
+              <span>STATUS</span>
+              <span id="status-sort-icon" class="ml-2 flex items-center">
+                <svg id="sort-icon" class="w-4 h-4 text-white-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>          
+            </th>
+            <th scope="col" class="px-6 py-3 border">
+              PROGRES
+            </th>
+            <th scope="col" class="px-6 py-3 border">
+              PREDIKSI AREA PANAS
+            </th>
+            <th scope="col" class="px-6 py-3 border">
+              MAKSIMAL TANGGAL PERBAIKAN
+            </th>
+            <th scope="col" class="px-6 py-3 border">
+              SUHU PERBAIKAN
+            </th>
+            <th scope="col" class="px-6 py-3 border">
+              FOTO PERBAIKAN
+            </th>
+            <th scope="col" class="px-6 py-3 border">
+              TANGGAL PERBAIKAN
+            </th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <!-- Data akan ditampilkan di sini -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    fetch('/riwayat/get-history')
+      .then(response => response.json())
+      .then(historyData => {
+        fetch('/riwayat/get-instalasi')
+          .then(response => response.json())
+          .then(instalasiData => {
+            const tableBody = document.getElementById('table-body');
+            const filteredHistoryData = historyData.data.filter(history => history.status_akhir !== "Aman" && history.status != "Aman" );
+            
+            if (filteredHistoryData && filteredHistoryData.length > 0) {
+
+            filteredHistoryData.forEach(history => {
+              const correspondingInstalasi = instalasiData.data.find(instalasi => instalasi.id == history.id_instalasi);
+            
+              const row = document.createElement('tr');
+              const statusProgres = (progres) => {
+                if (progres == 1) {
+                  return "Menunggu Perbaikan";
+                } else if (progres == 2) {
+                  return "Pemantauan Serius";
+                } else if (progres == 3) {
+                  return "Dalam Perbaikan";
+                } else {
+                  return "Perbaikan Selesai";
+                }
+              }
+            
+
+              row.innerHTML = `
+                <td class="px-6 py-4 border">${correspondingInstalasi.nama_instalasi}</td>
+                <td class="px-6 py-4 border">${history.status}</td>
+                <td class="px-6 py-4 border">              
+                <form class="max-w-sm mx-auto flex gap-2">
+                <label for="underline_select" class="sr-only">Underline select</label>
+                <select id="progres-${history.id}" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <option selected class="bg-gray-200">${statusProgres(history.progres)}</option>
+                    <option value="1">Menunggu Perbaikan</option>
+                    <option value="2">Pemantauan Serius</option>
+                    <option value="3">Dalam Perbaikan</option>
+                    <option value="4">Perbaikan Selesai</option>
+                </select>
+                <button type="button" onclick="submitProgres(${history.id})" class="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                    <svg class="w-4 h-4 text-white rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+               </form>
+               </td>
+                <td class="px-6 py-4 border">
+                  Total Area Panas: ${history.prediksi}
+               </td>
+                <td class="px-6 py-4 border">
+                  ${history.prediksi_tgl}
+              </td>
+                <td class="px-6 py-4 border">
+                  <form class="flex gap-2" id="form-${history.id}">
+                   <input type="hidden" name="id" value="${history.id}">
+                  <input type="number" name="suhu_perbaikan" value="${history.suhu_perbaikan}" id="suhu_perbaikan-${history.id}" class="border rounded p-2" placeholder="Masukkan Suhu Perbaikan" step="0.01"/>
+                  <button type="button" onclick="submitSuhuPerbaikan(${history.id})" class="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                     <svg class="w-4 h-4 text-white rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd" />
+                    </svg>
+                    </button>
+                </form>
+              
+              </td>
+                <td class="px-6 py-4 border">
+                  <form class="flex gap-2" id="foto-perbaikan-form-${history.id}" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="${history.id}">
+                  <input type="file" name="foto_perbaikan" value="${history.foto_perbaikan}" id="foto_perbaikan-${history.id}" class="border rounded p-2" placeholder="Masukkan Gambar Perbaikan" accept="image/jpeg, image/png, image/bmp" />
+                  <button type="button" onclick="submitFotoPerbaikan(${history.id})" class="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                      <svg class="w-4 h-4 text-white rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd" />
+                    </svg>
+                    </button>
+                </form>
+
+              </td>             
+                <td class="px-6 py-4 text-right border">
+                  <form class="flex gap-2" id="form-${history.id}">
+                    <input type="hidden" name="id" value="${history.id}">
+                    <input type="date" id="datepicker-${history.id}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="Select date">
+                    <button type="button" onclick="submitTanggal(${history.id})" class="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                      <svg class="w-4 h-4 text-gray-800 dark:text-white rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                  </form>
+                </td>
+              `;
+              tableBody.appendChild(row);
+              
+            });
+            } else {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+              
+                <td class="px-6 py-4 border text-center" colspan="6">
+                No data available
+                </td>
+              
+              `;
+              tableBody.appendChild(row);
+
+            }
+          });
+      });
+
+    function sortTable(columnIndex) {
+      const table = document.querySelector('table');
+      const tbody = table.tBodies[0];
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      const sortedRows = rows.sort((a, b) => {
+        const cellA = a.querySelectorAll('td')[columnIndex].textContent.trim();
+        const cellB = b.querySelectorAll('td')[columnIndex].textContent.trim();
+        return cellA.localeCompare(cellB);
+      });
+
+      tbody.innerHTML = '';
+      sortedRows.forEach(row => tbody.appendChild(row));
+    }
+
+    function submitProgres(id) {
+      const progres = document.getElementById(`progres-${id}`).value;
+      fetch(`/update/progres?id=${id}&progres=${progres}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Progres berhasil disimpan!');
+            location.reload();
+          } else {
+            alert('Terjadi kesalahan saat menyimpan Progres.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Terjadi kesalahan saat menyimpan Progres');
+        });
+    }
+
+    function submitSuhuPerbaikan(id) {
+      const suhuPerbaikan = document.getElementById(`suhu_perbaikan-${id}`).value;
+      fetch(`/update/suhu_perbaikan?suhu_perbaikan=${suhuPerbaikan}&id=${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        
+
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Suhu perbaikan berhasil disimpan!');
+            location.reload();
+        } else {
+            alert('Terjadi kesalahan saat menyimpan suhu perbaikan.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menyimpan suhu perbaikan');
+      });
+    }
+
+    function submitFotoPerbaikan(id) {
+      var formData = new FormData(document.getElementById(`foto-perbaikan-form-${id}`));
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', `/update/foto_perbaikan?id=${id}`, true);
+
+      xhr.onload = function () {
+          if (this.status == 200) {
+              alert('Foto berhasil disimpan!');
+          } else {
+              alert('Terjadi kesalahan saat menyimpan foto');
+          }
+      }
+      xhr.send(formData);
+      // const fotoPerbaikan = document.getElementById(`foto_perbaikan-${id}`).value;
+      // fetch(`/update/foto_perbaikan?id=${id}`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+        
+    // })
+    // .then(response => {
+    //     if (response.ok) {
+    //         alert('Foto perbaikan berhasil disimpan!');
+    //         location.reload();
+    //     } else {
+    //         alert('Terjadi kesalahan saat menyimpan foto perbaikan.');
+    //     }
+    // })
+    // .catch(error => {
+    //     console.error('Error:', error);
+    //     alert('Terjadi kesalahan saat menyimpan foto perbaikan');
+    //   });
+    }
+    document.getElementById(`foto_perbaikan-${history.id}`).addEventListener('change', function () {
+            submitFotoPerbaikan(history.id);
+        });
+
+    function submitTanggal(id) {
+      const tanggalPerbaikan = document.getElementById(`datepicker-${id}`).value;
+      fetch(`/update/tgl_perbaikan?id=${id}&tgl_perbaikan=${tanggalPerbaikan}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Tanggal perbaikan berhasil disimpan!');
+            location.reload();
+          } else {
+            alert('Terjadi kesalahan saat menyimpan tanggal perbaikan.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Terjadi kesalahan saat menyimpan tanggal perbaikan.');
+        });
+    }
+  </script>
+
+</body>
+
+</html>

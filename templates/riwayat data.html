@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Data Historis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b95ac',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+</head>
+
+<body>
+    <nav class="bg-primary sticky top-0 z-50">
+        <div class="px-24  flex flex-wrap items-center justify-between p-4">
+            <a href="/main_menu" class="flex items-center space-x-3 rtl:space-x-reverse max-sm:w-2/3">
+                <img src="https://www.charin.global/media/pages/community/pt-pln-persero/04f2cabdd1-1656674048/pln-2016-1280x-q95.png" alt="Logo" class="h-11 w-11">
+                <span class="self-center text-base font-semibold whitespace-nowrap text-white">Sistem Monitoring Dan
+                    Pemeliharaan Prediktif
+                    Jaringan Listrik</span>
+            </a>
+            <button data-collapse-toggle="navbar-default" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                aria-controls="navbar-default" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                <ul
+                    class="font-medium  flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
+                    <li>
+                        <a href="/deteksi"
+                            class="flex gap-2 items-center py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-white hover:text-blue-200">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5z" />
+                                <path
+                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1" />
+                            </svg>
+                            Sistem Deteksi</a>
+                    </li>
+                    <li>
+                        <a href="/riwayat"
+                            class="flex gap-2 items-center py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-blue-200  ">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" />
+                            </svg>
+                            Data Historis Hasil Submit</a>
+                    </li>
+                    <li>
+                        <a href="/logout"
+                        class="flex gap-2 items-center py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-white hover:text-blue-200">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          viewBox="0 0 16 16">
+                          <path d="M11 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-1zM9 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-1zM5 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-1z" />
+                          <path d="M8.598 1.707l-.701-.707-.707.707 1.404 1.404-.707.707z" />
+                        </svg>
+                          Logout</a>
+                      </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="px-24 py-12">
+        <div class="w-full grid justify-end">
+            <form class="max-w-md mx-auto">
+                <div class="flex mb-4">
+                    <input type="text" id="search" name="search"
+                        class="w-full px-3 py-2 placeholder-gray-400 border-2 rounded-l-lg focus:outline-none focus:border-blue-500"
+                        placeholder="Cari Instalasi....">
+
+                    <button
+                        class="relative z-[2] -ms-0.5 flex items-center rounded-e bg-primary px-5  text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                        type="button" id="button-addon4" data-twe-ripple-init data-twe-ripple-color="light">
+                        <span class="[&>svg]:h-5 [&>svg]:w-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </span>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+        <div class="relative overflow-x-scroll shadow-md sm:rounded-lg">
+            <table class="w-full text-base text-left rtl:text-right text-gray-500 border">
+                <thead class="text-xs text-white uppercase bg-primary">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 border">
+                            Nama Instalasi
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Tanggal Pengecekan
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Gambar Asli
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Gambar Termal
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Gambar Hasil Deteksi
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Suhu
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Status Kondisi
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Prediksi
+                        </th>
+                        <th scope="col" class="px-6 py-3 border">
+                            Riwayat Perbaikan
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("search").addEventListener("keyup", function (event) {
+            let filter = event.target.value.toUpperCase();
+            let rows = document.getElementsByTagName("tr");
+            for (let i = 1; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toUpperCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+                if (match) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        });
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString();
+        }
+
+        fetch('/riwayat/get-history')
+            .then(response => response.json())
+            .then(historyData => {
+                console.log(historyData);
+                fetch('/riwayat/get-instalasi')
+                .then(response => response.json())
+                .then(instalasiData => {
+                    
+                        if(instalasiData && instalasiData.data.length > 0){ 
+                        const tableBody = document.getElementById('table-body');
+                        instalasiData.data.forEach(instalasi => {
+                           
+                            // Find corresponding history data for the current instalasi
+                            const historyItem = historyData.data.find(item => item.id_instalasi === instalasi.id.toString());
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="px-6 py-4 border">${instalasi.nama_instalasi}</td>
+
+                                <td class="px-6 py-4 border">${formatDate(instalasi.tgl_pengecekan)}</td>
+
+                                
+                                <td class="px-6 py-4 border">
+                                    <div class="w-64">
+                                        <img class="w-full h-full object-cover" src="${instalasi.gambar_asli}" alt="">
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 border">
+                                    <div class="w-64">
+                                        <img class="w-full h-full object-cover" src="${instalasi.gambar_flir}" alt="">
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 border">
+                                    <div class="w-80">
+                                        <img class="w-full h-full object-cover" src="${instalasi.gambar_hasil}" alt="">
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 border">
+                                    <div class="w-full h-full grid gap-8">
+                                        <div class="w-40"> Suhu pengecekan : ${instalasi.suhu_kabel}</div>
+                                        <hr>
+                                        <div class="w-40">${historyItem.status === 'Aman' ? 'Tidak perlu diperbaiki':historyItem.suhu_perbaikan ==0?'Belum dilakukan pengecekan suhu':'Suhu setelah perbaikan : '.concat(historyItem.suhu_perbaikan)}</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 border">
+                                    <div class="w-full h-full grid gap-8">
+                                        <div class="w-40">${historyItem.status}</div>
+                                        <hr>
+                                        <div class="w-40">${ historyItem.status === 'Aman'? 'Tidak perlu diperbaiki' : historyItem.progres == 1? 'Menunggu perbaikan' : historyItem.progres == 2? 'Pemantauan serius':historyItem.progres == 3? 'Dalam Perbaikan':historyItem.progres == 4 &&historyItem.tgl_perbaikan!=null?historyItem.status_akhir:historyItem.progres ==4?'Perbaikan Selesai':'Belum Diperbaiki'}</div>
+
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 border">
+                                    <div class="w-full h-full grid gap-8">
+                                        <div class="w-40">Total Area panas sebelum perbaikan: ${ historyItem.prediksi}</div>
+                                        <hr>
+                                        <div class="w-40">${historyItem.status === 'Aman' ? 'Tidak perlu diperbaiki':historyItem.status_akhir===''? 'Belum diprediksi' : 'Total Area panas setelah perbaikan: 0'}</div>
+
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 border">
+                                    <div class="w-40">
+                                        <div class="w-40">${historyItem.status === 'Aman' ? 'Tidak perlu diperbaiki': historyItem.tgl_perbaikan == null ? 'Belum dilakukan perbaikan' : `Tanggal Perbaikan : ${formatDate(historyItem.tgl_perbaikan)}`}
+                                    </div>
+                                        <div class="w-40">${historyItem.foto_perbaikan == null ? 'Belum dilakukan perbaikan' : `<div><img src="${historyItem.foto_perbaikan}" class="w-full h-auto" alt="">`}
+                                    </div>
+                                </td>`;
+                                console.log(historyItem.foto_perbaikan);
+                            tableBody.appendChild(row);
+                        })
+                    }else {
+                            // No data
+                            const tableBody = document.getElementById('table-body');
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="px-6 py-4 border text-center" colspan="9">No Data Available</td>`;
+                            tableBody.appendChild(row);
+                        };
+                    });
+            });
+    </script>
+
+
+</body>
+
+</html>

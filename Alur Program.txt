@@ -1,0 +1,46 @@
+#Database
+- Pada database dibuat 2 status untuk setiap riwayat, status dan status akhir
+- Status akhir digunakan untuk filter pada main menu
+- Fungsi penggunaan dua status karena riwayat sebelum perbaikan dan sesudah perbaikan harus ada
+
+
+1. Fitur deteksi
+- Deteksi menggunakan form dengan input nama instalasi, tanggal pengecekan, gambar asli, dan gambar flir
+- Hanya terdapat button deteksi saat awal tampilan
+- Kemudian jika form sudah diisi dan button deteksi di klik maka akan muncul hasil deteksi gambar beserta button submit (hasil deteksi sementara untuk status dan hot area akan disimpan pada variabel app.config['STATUS'] & app.config['HOT_AREA']. Serta untuk gambar asli, gambar flir, dan gambar hasil deteksi akan diupload di folder static uploads (folder yg menyimpan hasil prediksi sementara))
+- User dapat melakukan deteksi gambar ulang dengan data lainnya jika hasil deteksi tidak sesuai (status, hot area dan gambar akan otomatis terupdate)
+- Jika sudah sesuai maka dapat dilakukan submit dengan klik button submit maka data gambar akan disimpan (data untuk lokasi gambar asli, gambar flir, gambar prediksi, nama instalasi, tanggal instalasi, status dan hasil prediksi akan disimpan kedalam database. Kemudian untuk gambar yg berada di folder uploads akan dipindah ke dalam folder images/[id data]/ secara otomatis agar dapat ditampilkan di tabel pada menu lainnya)
+
+2. Fitur main menu
+- Menampilkan semua data riwayat yang memiliki status akhir selain aman
+- Kemudian jika tanggal perbaikan diisi maka status status akhir pada riwayat tersebut akan dibuat aman
+- Dan akan dibuatkan riwayat baru dengan status dan status akhir aman dengan keterangan berupa tanggal perbaikan tersebut
+- kemudian untuk Total Hot Area pada riwayat baru otomatis menjadi 0 karena sudah aman
+
+3. Fitur riwayat
+- Menampilkan semua data riwayat
+- Status yang ditampilkan merupakan data status bukan status akhir
+- Fitur search
+- Data dengan status aman dan keterangan "-" merupakan data yang saat diinputkan atau dideteksi sudah aman
+- Data dengan status aman dan keterangan "terdapat tanggal perbaikan" merupakan data yang pernah diperbaiki
+
+
+#Buat Login
+@app.route('/')
+def index():
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form['email']
+    password = request.form['password']
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, password))
+    user = cur.fetchone()
+    if user:
+        user_obj = User(user['email'], user['password'])
+        login_user(user_obj)
+        return redirect(url_for('main_menu.html'))
+    else:
+        flash('Invalid username or password')
+        return redirect(url_for('index'))

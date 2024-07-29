@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deteksi Kerusakan Kabel Listrik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b95ac',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto max-w-lg mt-10 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="flex justify-between">
+            <h1 class="text-2xl font-bold text-center mb-4">Deteksi Kerusakan Kabel Listrik</h1>
+            <a href="/main_menu">
+                <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </a>
+        </div>
+        <form id="uploadForm" enctype="multipart/form-data" method="POST">
+            <div class="mb-4">
+                <label for="property_name" class="block text-gray-700 font-bold mb-2">Nama Instalasi:</label>
+                <input type="text" id="property_name" name="property_name" required
+                    class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="property_suhu" class="block text-gray-700 font-bold mb-2">Suhu:</label>
+                <input type="number" id="property_suhu" name="property_suhu" step="0.01" required
+                    class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="check_in_date" class="block text-gray-700 font-bold mb-2">Tanggal Pengecekan:</label>
+                <input type="date" id="check_in_date" name="check_in_date" required
+                    class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="property_image" class="block text-gray-700 font-bold mb-2">Gambar Asli:</label>
+                <input type="file" id="property_image" name="property_image" accept="image/jpeg, image/png, image/bmp"
+                    required
+                    class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="property_image2" class="block text-gray-700 font-bold mb-2">Gambar Termal:</label>
+                <input type="file" id="property_image2" name="property_image2" accept="image/jpeg, image/png, image/bmp"
+                    required
+                    class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <button type="button" onclick="detectImage()"
+                class="w-full px-4 py-2 mb-4 bg-primary text-white border-none rounded-lg cursor-pointer hover:bg-primary focus:outline-none focus:bg-primary/60">Deteksi
+                Gambar</button>
+            <div id="image_details" class="mb-4"></div>
+
+            <input type="submit" value="Submit Data" name="submit_data" id="submit_data"
+                class="w-full hidden px-4 py-2 bg-primary text-white border-none rounded-lg cursor-pointer hover:bg-primary focus:outline-none focus:bg-primary/60">
+        </form>
+    </div>
+
+    <script>
+        function detectImage() {
+            var formData = new FormData(document.getElementById('uploadForm'));
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/deteksi/cek', true);
+
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    var response = JSON.parse(this.response);
+                    var imageDetails = document.getElementById('image_details');
+                    var suhuInput = document.getElementById('property_suhu');
+                    var suhu = suhuInput.value;
+                    imageDetails.innerHTML = `
+                        <p class="font-bold text-gray-700">Gambar Terdeteksi:</p>
+                        <img src="${response.data.hasil_prediksi}" alt="Prediksi" class="my-2 max-w-full h-auto rounded-lg">
+                        <p class="text-gray-700"><span class="font-bold">Status:</span> ${response.data.status}</p>
+                        <p class="text-gray-700"><span class="font-bold">Total Area Panas:</span> ${response.data.prediksi}</p>
+                        <p class="text-gray-700"><span class="font-bold">Prediksi Tanggal Perbaikan:</span> ${response.data.prediksi_tgl}</p>
+                        <p class="text-gray-700"><span class="font-bold">Suhu Kabel:</span> ${suhu}°C</p>
+                    `;
+                    document.getElementById('submit_data').classList.remove('hidden');
+                }
+            }
+            xhr.send(formData);
+        }
+        function saveToDatabase(formData) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/deteksi/submit', true);
+
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    console.log('Data saved successfully!');
+                } else {
+                    console.error('Failed to save data to the database');
+                }
+            }
+            xhr.send(formData);
+        }
+
+        document.getElementById('submit_data').addEventListener('click', function () {
+            var formData = new FormData(document.getElementById('uploadForm'));
+            saveToDatabase(formData);
+        });
+    </script>
+
+</body>
+
+</html>
