@@ -2,16 +2,17 @@
 
 ## Deployment
 
-=============== Local Windows
-pip install virtualenv
+### Local Windows
 
-virtualenv venv # create virtual environment with name venv
+1. `pip install virtualenv`
 
-source venv/scripts/activate
+2. `virtualenv venv # create virtual environment with name venv`
 
-pip install -r requirements.txt # Microsoft Visual C++ 14.0 or greater is required https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-microsoft-visual-c-redistributable-version
+3. `source venv/scripts/activate`
 
-================ Alibaba 8.215.13.198
+4. `pip install -r requirements.txt # Microsoft Visual C++ 14.0 or greater is required https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-microsoft-visual-c-redistributable-version`
+
+### ECS Alibaba 8.215.13.198 Ubuntu 22.04
 
 1. `sudo apt-get update`
 
