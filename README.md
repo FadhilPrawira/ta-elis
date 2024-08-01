@@ -14,11 +14,11 @@
 
 ### ECS Alibaba 8.215.13.198 Ubuntu 22.04
 
-1. `sudo apt-get update`
+Based on [How to Deploy Flask with Gunicorn and Nginx (on Ubuntu) by Tony Teaches Tech](https://www.youtube.com/watch?v=KWIIPKbdxD0) and [Deploy Flask Application on Ubuntu VPS using Nginx by DevGuyAhnaf](https://www.youtube.com/watch?v=BpcK5jON6Cg).
 
-2. `sudo apt install curl git pkg-config python3-pip build-essential mariadb-server mariadb-client libmariadb-dev libgl1-mesa-glx nginx php8.1-fpm`
+1. `sudo apt update`
 
-`sudo apt-get install libffi-dev`
+2. `sudo apt install python3-pip mariadb-server mariadb-client`
 
 3. `sudo mysql_secure_installation`
 
@@ -58,48 +58,84 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 ```
 
+##### Set virtual environment for python
+
+`python3 -m venv ~/env/flask_Tugas_Akhir`
+`source ~/env/flask_Tugas_Akhir/bin/activate`
+
 4. `cd ta-elis`
 
-5. `pip3 install flask==2.1.3`
+5. `mysql -u root -p`
 
-6. `pip3 install Werkzeug==2.2.2`
+```sql
+CREATE DATABASE sql6709970;
+EXIT;
+```
 
-7. `pip3 install opencv_python==4.8.1.78`
+6. `mysql -u root -p sql6709970 < sql6709970.sql`
 
-8. `pip3 install flask_login flask_mysqldb joblib mysql-connector ultralytics --no-cache-dir`
+7. `pip3 install Werkzeug==2.2.2`
 
-9. `sudo nano /etc/nginx/sites-enabled/flask_app`
+8. `pip3 install flask==2.1.3`
+
+9. `pip3 install mysqlclient==2.1.1`
+
+10. `sudo apt install pkg-config`
+
+11. `sudo apt install libmariadb-dev`
+
+12. `pip3 install flask_mysqldb`
+
+13. `pip3 install flask_login`
+
+14. `pip3 install numpy==1.26.4`
+
+15. `pip3 install opencv_python==4.8.1.78`
+
+16. `sudo apt install libgl1-mesa-glx`
+
+17. `pip3 install matplotlib==3.8.2`
+
+18. `pip3 install ultralytics --no-cache-dir`
+
+19. `pip3 install joblib mysql-connector`
+
+20. `pip3 install scikit-learn`
+
+21. `sudo apt install nginx`
+
+22. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
 ```
 server {
     listen 80;
     location / {
-    proxy_pass http://127.0.0.1:8000;
+    proxy_pass http://127.0.0.1:5000;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 ```
 
-9. `sudo nginx -t`
+23. `sudo nginx -t`
 
-10. `sudo unlink /etc/nginx/sites-enabled/default`
+24. `sudo unlink /etc/nginx/sites-enabled/default`
 
-11. `sudo systemctl reload nginx`
+25. `sudo systemctl reload nginx`
 
-12. `sudo ufw allow 5000`
+Try accessing the server with `http://<YOUR_IP_ADDRESS>`. It should show a 502 Bad Gateway error.
 
-13. `sudo apt install gunicorn3`
+26. `sudo apt install gunicorn3`
 
-14. Try running it with `gunicorn3 --workers=3 app:app`
+27. Try running it with `gunicorn3 --bind 0.0.0.0:5000 app:app`
 
-15. If it works, run as a daemon with `gunicorn3 --workers=3 app:app`
+28. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 app:app --daemon`
 
 ### Setting PHPMyAdmin
 
-4. `sudo apt install phpMyAdmin`
+1. `sudo apt install php8.1-fpm phpMyAdmin`
 
-5. `sudo mysql -u root -p`
+2. `sudo mysql -u root -p`
 
 ```sql
 CREATE USER 'padmin'@'localhost' IDENTIFIED BY 'pwdpwd8';
@@ -107,7 +143,7 @@ GRANT ALL PRIVILEGES ON _._ TO 'padmin'@'localhost' WITH GRANT OPTION;
 EXIT;
 ```
 
-6. `sudo nano /etc/nginx/snippets/phpmyadmin.conf`
+3. `sudo nano /etc/nginx/snippets/phpmyadmin.conf`
 
 ```
 location /phpmyadmin {
@@ -128,14 +164,24 @@ location /phpmyadmin {
 }
 ```
 
-7. `sudo nano /etc/nginx/sites-available/default`
+4. `sudo nano /etc/nginx/sites-available/default`
 
 ```
         include snippets/phpmyadmin.conf;
 ```
 
-8. `sudo nginx -t`
+5. `sudo nginx -t`
 
-9. `sudo systemctl reload nginx`
+6. `sudo systemctl reload nginx`
 
-10. `sudo systemctl reload php8.1-fpm`
+7. `sudo systemctl reload php8.1-fpm`
+
+## TODO:
+
+1. Verify the deployment
+2. Fix code so user doesn't asked about login again
+3. Create a new non-root user
+4. Create a new non-root user for the database (So the code doesn't need to be changed)
+5. Deploy PHPMyAdmin together with the Flask app
+6. Add domain name `tamonitoringkabel.my.id`
+7. Add SSL certificate

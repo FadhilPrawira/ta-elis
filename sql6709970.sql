@@ -29,10 +29,10 @@ CREATE TABLE `history` (
   `status` varchar(255) NOT NULL,
   `prediksi` int(11) NOT NULL,
   `prediksi_tgl` varchar(255) NOT NULL,
-  `suhu_perbaikan` float NOT NULL,
-  `foto_perbaikan` varchar(255) NOT NULL,
+  `suhu_perbaikan` float,
+  `foto_perbaikan` varchar(255),
   `tgl_perbaikan` date DEFAULT NULL,
-  `status_akhir` varchar(255) NOT NULL,
+  `status_akhir` varchar(255),
   `progres` enum('1','2','3','4') DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
