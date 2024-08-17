@@ -52,96 +52,108 @@ Something like this:
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ
 ```
 
-3. `sudo git clone git@github.com:FadhilPrawira/ta-elis.git`
+3. `sudo apt install nginx`
+
+4. `cd /var/www`
+
+5. `sudo git clone git@github.com:FadhilPrawira/ta-elis.git`
 
 ```
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 ```
 
-4. Add the public key to the [Github SSH keys](https://github.com/settings/ssh/)
+6. Add the public key to the [Github SSH keys](https://github.com/settings/ssh/)
 
  <!-- Set virtual environment for python
 
 `python3 -m venv ~/env/flask_Tugas_Akhir`
 `source ~/env/flask_Tugas_Akhir/bin/activate` -->
 
-5. `cd ta-elis`
+7. `cd ta-elis`
 
-6. `mysql -u root -p`
+8. `mysql -u root -p`
 
 ```sql
 CREATE DATABASE sql6709970;
 EXIT;
 ```
 
-7. `mysql -u root -p sql6709970 < sql6709970.sql`
+9. `mysql -u root -p sql6709970 < sql6709970.sql`
 
-8. `pip3 install Werkzeug==2.2.2`
+10. `pip3 install Werkzeug==2.2.2`
 
-9. `pip3 install flask==2.1.3`
+11. `pip3 install flask==2.1.3`
 
-10. `sudo apt install pkg-config`
+12. `sudo apt install pkg-config`
 
-11. `sudo apt install libmariadb-dev`
+13. `sudo apt install libmariadb-dev`
 
-12. `pip3 install mysqlclient==2.1.1`
+14. `pip3 install mysqlclient==2.1.1`
 
-13. `pip3 install flask_mysqldb`
+15. `pip3 install flask_mysqldb`
 
-14. `pip3 install flask_login`
+16. `pip3 install flask_login`
 
-15. `pip3 install numpy==1.26.4`
+17. `pip3 install numpy==1.26.4`
 
-16. `pip3 install opencv_python==4.8.1.78`
+18. `pip3 install opencv_python==4.8.1.78`
 
-17. `sudo apt install libgl1-mesa-glx`
+19. `sudo apt install libgl1-mesa-glx`
 
-18. `pip3 install matplotlib==3.8.2`
+20. `pip3 install matplotlib==3.8.2`
 
-19. `pip3 install ultralytics --no-cache-dir`
+21. `pip3 install ultralytics --no-cache-dir`
 
-20. `pip3 install joblib mysql-connector`
+22. `pip3 install joblib mysql-connector`
 
-21. `pip3 install scikit-learn`
+23. `pip3 install scikit-learn`
 
-22. `sudo apt install nginx`
-
-23. `sudo nano /etc/nginx/sites-enabled/flask_app`
+24. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
 ```
 server {
     listen 80;
+    server_name fadhilprawira.my.id www.fadhilprawira.my.id;
     location / {
-    proxy_pass http://127.0.0.1:5000;
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 ```
 
-24. `sudo nginx -t`
+25. `sudo nginx -t`
 
-25. `sudo unlink /etc/nginx/sites-enabled/default`
+26. `sudo unlink /etc/nginx/sites-enabled/default`
 
-26. `sudo systemctl reload nginx`
+27. `sudo systemctl reload nginx`
+
+28. `sudo chown -R ta-pml: /var/www/ta-elis/static/uploads`
+
+29. `sudo mkdir -p /var/www/ta-elis/static/images && sudo chown ta-pml:ta-pml /var/www/ta-elis/static/images`
 
 Try accessing the server with `http://<YOUR_IP_ADDRESS>`. It should show a 502 Bad Gateway error.
 
-27. `python3 app.py`
+30. `python3 app.py`
 
 It should display the Flask app. But when you try to add a new data, it will show error 504. To fix this, we need to run the app with Gunicorn.
 
-28. `sudo apt install gunicorn3`
+31. `sudo apt install gunicorn3`
 
-29. Try running it with `gunicorn3 --bind 0.0.0.0:5000 app:app`
+32. Try running it with `gunicorn3 --bind 0.0.0.0:5000 app:app`
 
-30. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 app:app --daemon`
+33. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 app:app --daemon`
+
+You can close the terminal now.
 
 ### Setting PHPMyAdmin
 
-1. `sudo apt install php8.1-fpm phpMyAdmin`
+1. `sudo apt install php8.1-fpm`
 
-2. `sudo mysql -u root -p`
+2. `sudo apt install phpMyAdmin`
+
+3. `sudo mysql -u root -p`
 
 ```sql
 CREATE USER 'padmin'@'localhost' IDENTIFIED BY 'pwdpwd8';
@@ -149,7 +161,7 @@ GRANT ALL PRIVILEGES ON _._ TO 'padmin'@'localhost' WITH GRANT OPTION;
 EXIT;
 ```
 
-3. `sudo nano /etc/nginx/snippets/phpmyadmin.conf`
+4. `sudo nano /etc/nginx/snippets/phpmyadmin.conf`
 
 ```
 location /phpmyadmin {
@@ -170,10 +182,20 @@ location /phpmyadmin {
 }
 ```
 
-4. `sudo nano /etc/nginx/sites-available/default`
+5. `sudo nano /etc/nginx/sites-available/flask_app`
 
 ```
-        include snippets/phpmyadmin.conf;
+    server {
+    include snippets/phpmyadmin.conf;
+    listen 80;
+    server_name fadhilprawira.my.id www.fadhilprawira.my.id;
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
 ```
 
 5. `sudo nginx -t`
