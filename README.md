@@ -12,7 +12,7 @@
 
 4. `pip install -r requirements.txt # Microsoft Visual C++ 14.0 or greater is required https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-microsoft-visual-c-redistributable-version`
 
-### ECS Alibaba 8.215.13.198 Ubuntu 22.04
+### ECS Alibaba 8.215.13.198 Ubuntu 22.04 and VPS Biznet Gio 103.150.190.250 Ubuntu 22.04
 
 Based on [How to Deploy Flask with Gunicorn and Nginx (on Ubuntu) by Tony Teaches Tech](https://www.youtube.com/watch?v=KWIIPKbdxD0) and [Deploy Flask Application on Ubuntu VPS using Nginx by DevGuyAhnaf](https://www.youtube.com/watch?v=BpcK5jON6Cg).
 
@@ -52,59 +52,61 @@ Something like this:
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ
 ```
 
-3. `git clone git@github.com:FadhilPrawira/ta-elis.git`
+3. `sudo git clone git@github.com:FadhilPrawira/ta-elis.git`
 
 ```
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 ```
 
-##### Set virtual environment for python
+4. Add the public key to the [Github SSH keys](https://github.com/settings/ssh/)
+
+ <!-- Set virtual environment for python
 
 `python3 -m venv ~/env/flask_Tugas_Akhir`
-`source ~/env/flask_Tugas_Akhir/bin/activate`
+`source ~/env/flask_Tugas_Akhir/bin/activate` -->
 
-4. `cd ta-elis`
+5. `cd ta-elis`
 
-5. `mysql -u root -p`
+6. `mysql -u root -p`
 
 ```sql
 CREATE DATABASE sql6709970;
 EXIT;
 ```
 
-6. `mysql -u root -p sql6709970 < sql6709970.sql`
+7. `mysql -u root -p sql6709970 < sql6709970.sql`
 
-7. `pip3 install Werkzeug==2.2.2`
+8. `pip3 install Werkzeug==2.2.2`
 
-8. `pip3 install flask==2.1.3`
-
-9. `pip3 install mysqlclient==2.1.1`
+9. `pip3 install flask==2.1.3`
 
 10. `sudo apt install pkg-config`
 
 11. `sudo apt install libmariadb-dev`
 
-12. `pip3 install flask_mysqldb`
+12. `pip3 install mysqlclient==2.1.1`
 
-13. `pip3 install flask_login`
+13. `pip3 install flask_mysqldb`
 
-14. `pip3 install numpy==1.26.4`
+14. `pip3 install flask_login`
 
-15. `pip3 install opencv_python==4.8.1.78`
+15. `pip3 install numpy==1.26.4`
 
-16. `sudo apt install libgl1-mesa-glx`
+16. `pip3 install opencv_python==4.8.1.78`
 
-17. `pip3 install matplotlib==3.8.2`
+17. `sudo apt install libgl1-mesa-glx`
 
-18. `pip3 install ultralytics --no-cache-dir`
+18. `pip3 install matplotlib==3.8.2`
 
-19. `pip3 install joblib mysql-connector`
+19. `pip3 install ultralytics --no-cache-dir`
 
-20. `pip3 install scikit-learn`
+20. `pip3 install joblib mysql-connector`
 
-21. `sudo apt install nginx`
+21. `pip3 install scikit-learn`
 
-22. `sudo nano /etc/nginx/sites-enabled/flask_app`
+22. `sudo apt install nginx`
+
+23. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
 ```
 server {
@@ -117,19 +119,23 @@ server {
 }
 ```
 
-23. `sudo nginx -t`
+24. `sudo nginx -t`
 
-24. `sudo unlink /etc/nginx/sites-enabled/default`
+25. `sudo unlink /etc/nginx/sites-enabled/default`
 
-25. `sudo systemctl reload nginx`
+26. `sudo systemctl reload nginx`
 
 Try accessing the server with `http://<YOUR_IP_ADDRESS>`. It should show a 502 Bad Gateway error.
 
-26. `sudo apt install gunicorn3`
+27. `python3 app.py`
 
-27. Try running it with `gunicorn3 --bind 0.0.0.0:5000 app:app`
+It should display the Flask app. But when you try to add a new data, it will show error 504. To fix this, we need to run the app with Gunicorn.
 
-28. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 app:app --daemon`
+28. `sudo apt install gunicorn3`
+
+29. Try running it with `gunicorn3 --bind 0.0.0.0:5000 app:app`
+
+30. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 app:app --daemon`
 
 ### Setting PHPMyAdmin
 

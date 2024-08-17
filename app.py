@@ -94,7 +94,7 @@ def resize_image(image, target_size=500):
 ##PEDIKSI TANGGAL PERBAIKAN##
 #Menarik Data dari Basis Data
 def data(safety_level):
-    mysql = connection.connect(host='sql6.freesqldatabase.com', database='sql6709970',user='sql6709970',passwd='gTUGfbb99U',use_pure=True)
+    mysql = connection.connect(host=app.config['MYSQL_HOST'], database=app.config['MYSQL_DB'], user=app.config['MYSQL_USER'], passwd=app.config['MYSQL_PASSWORD'],use_pure=True)
     ins_df = pd.read_sql("SELECT * FROM instalasi",mysql)
     nama_instalasi = request.form['property_name']
     print(nama_instalasi)
@@ -448,4 +448,4 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
