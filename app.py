@@ -1,4 +1,4 @@
-#Bagian Import dan From
+#Bagian Import
 from flask import Flask, request,  jsonify, render_template
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
@@ -78,15 +78,21 @@ def login():
         flash('Invalid username or password')
         return redirect(url_for('index'))
 
-# Fungsi untuk meresize gambar
-def resize_image(image, target_width=500):
-    scale_percent = target_width / image.shape[1] * 100
-    width = int(image.shape[1] * scale_percent / 100)
-    height = int(image.shape[0] * scale_percent / 100)
-    dim = (width, height)
+# Fungsi untuk meresize gambar pakai skala
+# def resize_image(image, target_width=100):
+#     scale_percent = target_width / image.shape[1] * 100
+#     width = int(image.shape[1] * (scale_percent / 100))
+#     height = int(image.shape[0] * (scale_percent / 100))
+#     dim = (width, height)
+#     return cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+
+# Fungsi untuk meresize gambar ukuran target size = width = height
+def resize_image(image, target_size=500):
+    dim = (target_size, target_size)
     return cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
 
-#RARA#
+##PEDIKSI TANGGAL PERBAIKAN##
+#Menarik Data dari Basis Data
 def data(safety_level):
     mysql = connection.connect(host='sql6.freesqldatabase.com', database='sql6709970',user='sql6709970',passwd='gTUGfbb99U',use_pure=True)
     ins_df = pd.read_sql("SELECT * FROM instalasi",mysql)
@@ -114,7 +120,7 @@ def data(safety_level):
         day_check = (last_check - first_check).days + 1
     print(day_check,temp,level,last_check)
     return day_check,temp,level,last_check
-# Predict diganti
+# Prediksi
 def predict(safety_level) :
     day_check,temp,level,last_check = data(safety_level)
     model_rf = joblib.load('my_random_forest.joblib')
@@ -127,28 +133,24 @@ def predict(safety_level) :
         recom = 'Tidak Perlu Perbaikan'
       else:
         recom = last_check + timedelta(days=14)
-        recom = recom.strftime("%x")
+        recom = recom.strftime("%d/%m/%Y")
     else : 
       recom = last_check + timedelta(days=rul)
-      recom = recom.strftime("%x")
+      recom = recom.strftime("%d/%m/%Y")
     return recom
 
-# contoh alur fungsi prediksi ann
-# def prediksi_ann(gambar flir):
-#     #load model
-#     #prediksi dengan gambar flir
-#     #return hasil prediksi
     
-# Function to detect and segment object
-def detect_and_segment_object(original_image_path, flir_image_path, target_width=1000, has_damages=True):
+# Bagian Deteksi dan Segmentasi
+# Melakukan deteksi dari data yang sudah diresize
+def detect_and_segment_object(original_image_path, flir_image_path, target_size=500, has_damages=True):
     # Menginput gambar dari file
     original_image = cv2.imread(original_image_path)
     flir_image = cv2.imread(flir_image_path)
 
-    resized_original_image = resize_image(original_image, target_width)
-    resized_flir_image = resize_image(flir_image, target_width)
+    resized_original_image = resize_image(original_image, target_size)
+    resized_flir_image = resize_image(flir_image, target_size)
 
-    # Bagian deteksi jaringan saraf tiruan (rara)
+    # Bagian deteksi jaringan saraf tiruan
     def detect_cnn(flir_image_path):
         model = YOLO('best.pt')
         results = model.predict(flir_image_path)
@@ -161,35 +163,31 @@ def detect_and_segment_object(original_image_path, flir_image_path, target_width
     safety_level = output_class
     print(f"Deteksi Kabel dengan metode Jaringan Saraf Tiruan: {safety_level}")
 
-    # Mendeteksi objek berdasarkan warna merah, kuning atau orange dalam gambar menggunakan representasi warna HSV (Hue, Saturation, Value)
+    # Mendeteksi objek berdasarkan warna merah dan merah cendrung putih dalam gambar menggunakan representasi warna HSV (Hue, Saturation, Value)
     hsv_image = cv2.cvtColor(resized_flir_image, cv2.COLOR_BGR2HSV)
 
-    # Range warna HSV untuk suhu panas (white,red)
+    # Range warna HSV untuk suhu panas (white-red,red)
+    #https://www.selecolor.com/en/hsv-color-picker/ gunakan url untuk mengatur nilai hsv
     lower_red = np.array([0, 100, 100])  # red
     upper_red = np.array([10, 255, 255])
-
-    #lower_orange = np.array([10, 100, 100])  # orange
-    #upper_orange = np.array([20, 255, 255])
 
     lower_white = np.array([0, 0, 200])  # white
     upper_white = np.array([15, 50, 255])
 
-    # Create masks for each color range
+    # Membuat mask untuk menentukan range warna
     red_mask = cv2.inRange(hsv_image, lower_red, upper_red)
-    #orange_mask = cv2.inRange(hsv_image, lower_orange, upper_orange)
     white_mask = cv2.inRange(hsv_image, lower_white, upper_white)
       
-    # Combine masks using bitwise OR operation
+    # Mengkombinasikan mask
     hot_mask = cv2.bitwise_or(red_mask, white_mask)
-    #hot_mask = cv2.bitwise_or(hot_mask, white_mask)
 
-    # Find contours in the combined mask
+    # Mencari contours dari combined mask
     contours, _ = cv2.findContours(hot_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Variabel untuk menyimpan jumlah area panas
     total_hot_area = 0
 
-    # Create mask for hot area
+    # Membuat mask untuk hot area
     hot_mask_image1 = np.zeros_like(resized_original_image)
     hot_mask_image2 = np.zeros_like(resized_original_image)
 
@@ -198,11 +196,11 @@ def detect_and_segment_object(original_image_path, flir_image_path, target_width
         #Hitung luas contur
         area = cv2.contourArea(contour)
         # Jika luas kontur mencukupi, itu mungkin merupakan kabel merah
-        if area > 1000:  # Ubah nilai ini sesuai dengan kebutuhan
+        if area > 500:  # Ubah nilai ini sesuai dengan kebutuhan
             # Gambar kotak pembatas di sekitar kontur / Deteksi
             x, y, w, h = cv2.boundingRect(contour)
             cv2.drawContours(hot_mask_image1, [contour], -1, (0, 0, 255), thickness=cv2.FILLED)
-            cv2.rectangle(resized_flir_image, (x, y), (x+w, y+h), (255, 255, 255), 3)
+            cv2.rectangle(resized_flir_image, (x, y), (x+w, y+h), (255, 255, 255), 5)
             
             # Tambahkan luas kotak pembatas pada total area panas
             total_hot_area += 1
@@ -223,10 +221,7 @@ def detect_and_segment_object(original_image_path, flir_image_path, target_width
     # Add the resized hot_mask_image1 onto original_image with blending
     blended_image2 = cv2.addWeighted(flir_image, 0.2, hot_mask_image2_resized, 0.8, 0)
 
-
-    # Determine safety level based on total hot area
-    # Status mengambil dari safety_level, jika ingin menggunakan ANN maka bisa buat fungsi untuk load model dan mengembalikan nilai prediksi dan berikan input menggunakan gambar yg dibutuhkan
-    #safety_level = determine_safety_level(total_hot_area)
+    # Membuat Plot Gambar
     # Function to determine safety level based on suhu
     plt.figure(figsize=(9, 6))
     plt.subplot(2, 3, 1)
@@ -453,4 +448,4 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=True)

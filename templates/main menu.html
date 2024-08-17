@@ -90,10 +90,10 @@
             <th scope="col" class="px-6 py-3 border cursor-pointer flex items-center" onclick="sortTable(1)">
               <span>STATUS</span>
               <span id="status-sort-icon" class="ml-2 flex items-center">
-                <svg id="sort-icon" class="w-4 h-4 text-white-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7" />
-                </svg>
-              </span>          
+                  <svg id="sort-icon" class="w-4 h-4 text-white-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7" />
+                  </svg>
+              </span>        
             </th>
             <th scope="col" class="px-6 py-3 border">
               PROGRES
@@ -101,8 +101,13 @@
             <th scope="col" class="px-6 py-3 border">
               PREDIKSI AREA PANAS
             </th>
-            <th scope="col" class="px-6 py-3 border">
-              MAKSIMAL TANGGAL PERBAIKAN
+            <th scope="col" class="px-6 py-3 border cursor-pointer flex items-center" onclick="sortTable(2)">
+              <span>MAKSIMAL TANGGAL PERBAIKAN</span>
+              <span id="date-sort-icon" class="ml-2 flex items-center">
+                  <svg id="sort-icon" class="w-4 h-4 text-white-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7" />
+                  </svg>
+              </span>  
             </th>
             <th scope="col" class="px-6 py-3 border">
               SUHU PERBAIKAN
@@ -231,19 +236,62 @@
           });
       });
 
-    function sortTable(columnIndex) {
-      const table = document.querySelector('table');
-      const tbody = table.tBodies[0];
-      const rows = Array.from(tbody.querySelectorAll('tr'));
+    let sortOrder = true;
+    function sortTable(n) {
+        const table = document.querySelector('table');        
+        let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        switching = true;
+        dir = sortOrder ? "asc" : "desc";
 
-      const sortedRows = rows.sort((a, b) => {
-        const cellA = a.querySelectorAll('td')[columnIndex].textContent.trim();
-        const cellB = b.querySelectorAll('td')[columnIndex].textContent.trim();
-        return cellA.localeCompare(cellB);
-      });
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount === 0 && dir === "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
 
-      tbody.innerHTML = '';
-      sortedRows.forEach(row => tbody.appendChild(row));
+        sortOrder = !sortOrder;
+        updateSortIcon(n);
+    }
+
+    function updateSortIcon(columnIndex) {
+        const headers = [
+            document.getElementById("status-sort-icon"),
+            document.getElementById("date-sort-icon")
+        ];
+        
+        headers.forEach((header, index) => {
+            const icon = header.querySelector("svg path");
+            if (index === columnIndex) {
+                icon.setAttribute("d", sortOrder ? "M19 9l-7 7-7-7" : "M19 15l-7-7-7 7");
+            } else {
+                icon.setAttribute("d", "M19 9l-7 7-7-7");
+            }
+        });
     }
 
     function submitProgres(id) {
