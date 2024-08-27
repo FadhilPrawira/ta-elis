@@ -87,35 +87,49 @@
             <th scope="col" class="px-6 py-3 border">
               NAMA INSTALASI
             </th>
+<th scope="col" class="px-6 py-3 border cursor-pointer" onclick="sortTable(1)">
+  <div class="flex items-center">
+    <span>STATUS Jaringan kabel</span>
+    <span id="status-sort-icon" class="ml-2 inline-flex items-center">
+      <svg id="sort-icon" class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </span>
+  </div>
+</th>
+<!--
             <th scope="col" class="px-6 py-3 border cursor-pointer flex items-center" onclick="sortTable(1)">
               <span>STATUS</span>
-              <span id="status-sort-icon" class="ml-2 flex items-center">
+              <span id="status-sort-icon" class="ml-2 inline-flex items-center">
                   <svg id="sort-icon" class="w-4 h-4 text-white-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7" />
                   </svg>
               </span>        
             </th>
-            <th scope="col" class="px-6 py-3 border">
+-->
+            <th scope="col" class="px-6 py-3 border text-center">
               PROGRES
             </th>
             <th scope="col" class="px-6 py-3 border">
               PREDIKSI AREA PANAS
             </th>
-            <th scope="col" class="px-6 py-3 border cursor-pointer flex items-center" onclick="sortTable(2)">
+            <th scope="col" class="px-6 py-3 border cursor-pointer" onclick="sortTable(2)">
+<div class="flex items-center">
               <span>MAKSIMAL TANGGAL PERBAIKAN</span>
-              <span id="date-sort-icon" class="ml-2 flex items-center">
-                  <svg id="sort-icon" class="w-4 h-4 text-white-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <span id="date-sort-icon" class="ml-2 inline-flex items-center">
+                  <svg id="sort-icon" class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7" />
                   </svg>
               </span>  
+</div>
             </th>
-            <th scope="col" class="px-6 py-3 border">
+            <th scope="col" class="px-6 py-3 border text-center">
               SUHU PERBAIKAN
             </th>
-            <th scope="col" class="px-6 py-3 border">
+            <th scope="col" class="px-6 py-3 border text-center">
               FOTO PERBAIKAN
             </th>
-            <th scope="col" class="px-6 py-3 border">
+            <th scope="col" class="px-6 py-3 border text-center">
               TANGGAL PERBAIKAN
             </th>
           </tr>
@@ -159,6 +173,33 @@
               row.innerHTML = `
                 <td class="px-6 py-4 border">${correspondingInstalasi.nama_instalasi}</td>
                 <td class="px-6 py-4 border">${history.status}</td>
+<td class="px-6 py-4 border">              
+  <form class="max-w-sm mx-auto flex gap-2">
+    <label for="underline_select" class="sr-only">Underline select</label>
+<!--
+    <select id="progres-1" class="block py-2.5 px-2 w-full text-sm text-black bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      <option selected class="bg-gray-200">Menunggu Perbaikan</option>
+      <option value="1">Menunggu Perbaikan</option>
+      <option value="2">Pemantauan Serius</option>
+      <option value="3">Dalam Perbaikan</option>
+      <option value="4">Perbaikan Selesai</option>
+    </select>
+-->
+<select id="progres-1" class="flex-grow px-4 py-2 text-sm text-black bg-white border border-gray-300 rounded-md">
+  <option selected>Menunggu Perbaikan</option>
+  <option value="1">Menunggu Perbaikan</option>
+  <option value="2">Pemantauan Serius</option>
+  <option value="3">Dalam Perbaikan</option>
+  <option value="4">Perbaikan Selesai</option>
+</select>
+    <button type="button" onclick="submitProgres(1)" class="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+      <svg class="w-4 h-4 text-white rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd"></path>
+      </svg>
+    </button>
+  </form>
+</td>
+<!--
                 <td class="px-6 py-4 border">              
                 <form class="max-w-sm mx-auto flex gap-2">
                 <label for="underline_select" class="sr-only">Underline select</label>
@@ -176,6 +217,7 @@
                 </button>
                </form>
                </td>
+-->
                 <td class="px-6 py-4 border">
                   Total Area Panas: ${history.prediksi}
                </td>

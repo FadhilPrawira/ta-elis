@@ -61,7 +61,7 @@
                     required
                     class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:border-blue-500">
             </div>
-            <button type="button" onclick="detectImage()"
+            <button type="button" onclick="detectImage()" id="detect_button"
                 class="w-full px-4 py-2 mb-4 bg-primary text-white border-none rounded-lg cursor-pointer hover:bg-primary focus:outline-none focus:bg-primary/60">Deteksi
                 Gambar</button>
             <div id="image_details" class="mb-4"></div>
@@ -74,7 +74,16 @@
     <script>
         function detectImage() {
             var formData = new FormData(document.getElementById('uploadForm'));
+  var detectButton = document.getElementById('detect_button');
 
+    // Disable button and show loading spinner
+    detectButton.disabled = true;
+    detectButton.innerHTML = `
+        <svg class="animate-spin h-5 w-5 text-white mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+    `;
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/deteksi/cek', true);
 
@@ -94,6 +103,10 @@
                     `;
                     document.getElementById('submit_data').classList.remove('hidden');
                 }
+
+  // Re-enable button and restore original content
+        detectButton.disabled = false;
+        detectButton.innerHTML = "Deteksi Gambar";
             }
             xhr.send(formData);
         }
