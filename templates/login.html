@@ -1,211 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Global Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Global Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-size: 100% 100%;
-      background-position: 0px 0px;
-      background-image: linear-gradient(90deg, #1b95ac 0%, #FFFF 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+      body {
+        font-family: Arial, sans-serif;
+        background-size: 100% 100%;
+        background-position: 0px 0px;
+        background-image: linear-gradient(90deg, #1b95ac 0%, #ffff 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
 
-    /* Container Styles */
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+      /* Container Styles */
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
-    /* Login Box Styles */
-    .login-box {
-      width: 400px;
-      background: #fff;
-      color: #000;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      animation: fadeIn 1s ease-in-out;
-    }
+      /* Login Box Styles */
+      .login-box {
+        width: 400px;
+        background: #fff;
+        color: #000;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        animation: fadeIn 1s ease-in-out;
+      }
 
-    .login-box:hover {
-      transform: scale(1.05);
-    }
+      .login-box:hover {
+        transform: scale(1.05);
+      }
 
-    .login-box h2 {
-      margin: 0 0 30px;
-      text-align: center;
-      font-weight: bold;
-      color: #0278ae;
-    }
+      .login-box h2 {
+        margin: 0 0 30px;
+        text-align: center;
+        font-weight: bold;
+        color: #0278ae;
+      }
 
-    /* User Box Styles */
-    .user-box {
-      position: relative;
-      margin-bottom: 20px;
-    }
+      /* User Box Styles */
+      .user-box {
+        position: relative;
+        margin-bottom: 20px;
+      }
 
-    .user-box input {
-      width: 100%;
-      padding: 10px 0;
-      font-size: 16px;
-      color: #000;
-      margin-bottom: 30px;
-      border: none;
-      border-bottom: 1px solid #000;
-      outline: none;
-      background: transparent;
-      transition: border-color 0.3s ease;
-    }
+      .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #000;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid #000;
+        outline: none;
+        background: transparent;
+        transition: border-color 0.3s ease;
+      }
 
-    .user-box input:focus {
-      border-color: #0278ae;
-    }
+      .user-box input:focus {
+        border-color: #0278ae;
+      }
 
-    .user-box label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 10px 0;
-      font-size: 16px;
-      color: #000;
-      pointer-events: none;
-      transition: .5s ease;
-    }
+      .user-box label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #000;
+        pointer-events: none;
+        transition: 0.5s ease;
+      }
 
-    .user-box input:focus ~ label,
-    .user-box input:valid ~ label {
-      top: -20px;
-      left: 0;
-      color: #0278ae;
-      font-size: 12px;
-    }
+      .user-box input:focus ~ label,
+      .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #0278ae;
+        font-size: 12px;
+      }
 
-    /* Button Styles */
-    button {
-      width: 100%;
-      padding: 10px 0;
-      font-size: 16px;
-      color: #fff;
-      background-color: #03a9f4;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+      /* Button Styles */
+      button {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        background-color: #03a9f4;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-    button:hover {
-      background-color: #0278ae;
-    }
+      button:hover {
+        background-color: #0278ae;
+      }
 
-    /* Error Styles */
-    .error {
-      color: red;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
+      /* Error Styles */
+      .error {
+        color: red;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
 
-    /* Footer Styles */
-    .footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: #000000;
-      color: #fff;
-      text-align: center;
-      padding: 2px 0;
-    }
+      /* Footer Styles */
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: #000000;
+        color: #fff;
+        text-align: center;
+        padding: 2px 0;
+      }
 
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
 
-    @keyframes loading {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+        to {
+          opacity: 1;
+        }
+      }
 
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      visibility: hidden;
-    }
+      @keyframes loading {
+        0% {
+          transform: rotate(0deg);
+        }
 
-    .loading-overlay .spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(0, 0, 0, 0.1);
-      border-top: 5px solid #03a9f4;
-      border-radius: 50%;
-      animation: loading 1s linear infinite;
-    }
-  </style>
-</head>
-<body>
-  <div class="loading-overlay">
-    <div class="spinner"></div>
-  </div>
-  <div class="container">
-    <div class="login-box">
-      <h2>Login Sistem Monitoring</h2>
-      <form id="login-form" action="/login" method="post">
-        <div class="user-box">
-          <input type="text" name="email" required="">
-          <label>Username</label>
-        </div>
-        <div class="user-box">
-          <input type="password" name="password" required="">
-          <label>Password</label>
-        </div>
-        <button type="submit">Login</button>
-        <div class="error">
-          <!-- Error message will be displayed here -->
-        </div>
-      </form>
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+      }
+
+      .loading-overlay .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(0, 0, 0, 0.1);
+        border-top: 5px solid #03a9f4;
+        border-radius: 50%;
+        animation: loading 1s linear infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-overlay">
+      <div class="spinner"></div>
     </div>
-  </div>
-  <div class="footer">
-    <p>&copy; 2024 Sistem Monitoring Kelistrikan. All Rights Reserved.</p>
-  </div>
-
-  <script>
-    const form = document.getElementById('login-form');
-    const loadingOverlay = document.querySelector('.loading-overlay');
-
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      loadingOverlay.style.visibility = 'visible';
-      setTimeout(() => {
-        form.submit();
-      }, 2000); // Simulate a delay for loading animation
-    });
-  </script>
-</body>
+    <div class="container">
+      <div class="login-box">
+        <h2>Login Sistem Monitoring</h2>
+        <form id="login-form" action="/login" method="post">
+          <div class="user-box">
+            <input type="text" name="email" required="" />
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="password" name="password" required="" />
+            <label>Password</label>
+          </div>
+          <button type="submit">Login</button>
+          <div class="error">
+            <!-- Error message will be displayed here -->
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 Sistem Monitoring Kelistrikan. All Rights Reserved.</p>
+    </div>
+    <script>
+      const form = document.getElementById("login-form");
+      const loadingOverlay = document.querySelector(".loading-overlay");
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        loadingOverlay.style.visibility = "visible";
+        setTimeout(() => {
+          form.submit();
+        }, 2000); // Simulate a delay for loading animation
+      });
+    </script>
+  </body>
 </html>

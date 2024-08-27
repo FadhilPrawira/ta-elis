@@ -1,27 +1,29 @@
 # Tugas Akhir Elis: Python Flask
 
-## Deployment
+## Deployment on VPS
 
-### Local Windows
-
-1. `pip install virtualenv`
-
-2. `virtualenv venv # create virtual environment with name venv`
-
-3. `source venv/scripts/activate`
-
-4. `pip install -r requirements.txt # Microsoft Visual C++ 14.0 or greater is required https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-microsoft-visual-c-redistributable-version`
-
-### ECS Alibaba 8.215.13.198 Ubuntu 22.04 and VPS Biznet Gio 103.150.190.250 Ubuntu 22.04
+Here are the steps to deploy the application on a VPS that runs Ubuntu 22.04:
 
 Based on [How to Deploy Flask with Gunicorn and Nginx (on Ubuntu) by Tony Teaches Tech](https://www.youtube.com/watch?v=KWIIPKbdxD0), [Deploy Flask Application on Ubuntu VPS using Nginx by DevGuyAhnaf](https://www.youtube.com/watch?v=BpcK5jON6Cg), and [Run a Flask App with WSGI and NGINX on EC2
 ](http://nitya.online/index.php/2020/10/11/run-a-flask-app-with-wsgi-and-nginx-on-ec2/).
 
 1. `sudo apt update`
 
-2. `sudo apt install python3-pip mariadb-server mariadb-client`
+2. `sudo apt install python3-pip`
 
-3. `sudo mysql_secure_installation`
+### Set the domain
+
+1. Buy a domain from registar
+
+2. Go to DNS Management and add an A record with the IP address of the server
+
+3. Wait for the DNS to propagate. You can check the propagation status using [DNS Checker](https://dnschecker.org/). It may take up to 48 hours.
+
+### Setting database
+
+1. `sudo apt install mariadb-server mariadb-client`
+
+2. `sudo mysql_secure_installation`
 
 ```
 Enter current password for root (enter for none): [enter]
@@ -35,7 +37,7 @@ Remove test database and access to it? [Y/n] y
 Reload privilege tables now? [Y/n] y
 ```
 
-#### Setting Up Python Flask
+### Setting Up Python Flask
 
 1. `sudo ssh-keygen`
 
@@ -64,11 +66,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZ
 ```
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 ```
-
- <!-- Set virtual environment for python
-
-`python3 -m venv ~/env/flask_Tugas_Akhir`
-`source ~/env/flask_Tugas_Akhir/bin/activate` -->
 
 7. `cd ta-elis`
 
@@ -101,18 +98,18 @@ EXIT;
 
 19. `pip3 install matplotlib==3.8.2`
 
-20. `pip3 install ultralytics --no-cache-dir`
+20. `pip3 install joblib mysql-connector`
 
-21. `pip3 install joblib mysql-connector`
+21. `pip3 install scikit-learn`
 
-22. `pip3 install scikit-learn`
+22. `pip3 install ultralytics --no-cache-dir`
 
 23. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
 ```
 server {
     listen 80;
-    server_name fadhilprawira.my.id www.fadhilprawira.my.id;
+    server_name tamonitoringkabel.my.id www.tamonitoringkabel.my.id;
     location / {
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $host;
@@ -128,9 +125,9 @@ server {
 
 26. `sudo systemctl reload nginx`
 
-27. `sudo chown -R ta-pml: /var/www/ta-elis/static/uploads`
+27. `sudo chown -R ta-elisrara: /var/www/ta-elis/static/uploads`
 
-28. `sudo mkdir -p /var/www/ta-elis/static/images && sudo chown ta-pml:ta-pml /var/www/ta-elis/static/images`
+28. `sudo mkdir -p /var/www/ta-elis/static/images && sudo chown ta-elisrara:ta-elisrara /var/www/ta-elis/static/images`
 
 Try accessing the server with `http://<YOUR_IP_ADDRESS>`. It should show a 502 Bad Gateway error.
 
@@ -183,11 +180,13 @@ location /phpmyadmin {
 
 5. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
+Change it to this:
+
 ```
     server {
     include snippets/phpmyadmin.conf;
     listen 80;
-    server_name fadhilprawira.my.id www.fadhilprawira.my.id;
+    server_name tamonitoringkabel.my.id www.tamonitoringkabel.my.id;
     location / {
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $host;
@@ -225,7 +224,7 @@ location /phpmyadmin {
 
 10. `sudo ufw status`
 
-11. `sudo certbot --nginx -d <YOUR_DOMAIN> -d www.<YOUR_DOMAIN>`
+11. `sudo certbot --nginx -d tamonitoringkabel.my.id -d www.tamonitoringkabel.my.id`
 
 12. `sudo systemctl status snap.certbot.renew.service`
 
@@ -234,9 +233,4 @@ location /phpmyadmin {
 ## TODO:
 
 1. Verify the deployment
-2. Fix code so user doesn't asked about login again
-3. Create a new non-root user
-4. Create a new non-root user for the database (So the code doesn't need to be changed)
-5. Deploy PHPMyAdmin together with the Flask app
-6. Add domain name `tamonitoringkabel.my.id`
-7. Add SSL certificate
+2. Fix code that have bugs
