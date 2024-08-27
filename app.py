@@ -35,6 +35,7 @@ app.config['UPLOAD_FOLDER'] = './static/uploads'
 app.config['STATUS'] = ''
 app.config['HOT_AREA'] = ''
 app.config['PREDIKSI_TANGGAL'] = ''
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
 
 mysql = MySQL(app)
 
