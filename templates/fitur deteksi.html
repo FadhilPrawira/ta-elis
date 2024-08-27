@@ -139,6 +139,7 @@
         detectButton.disabled = true;
         detectButton.innerHTML = `
         
+			
 			<svg class="animate-spin h-5 w-5 text-white mx-auto"
 				xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 				<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -155,19 +156,24 @@
             var suhu = suhuInput.value;
             imageDetails.innerHTML = `
                         
+			
 			<p class="font-bold text-gray-700">Gambar Terdeteksi:</p>
 			<img src="${response.data.hasil_prediksi}" alt="Prediksi" class="my-2 max-w-full h-auto rounded-lg">
 				<p class="text-gray-700">
 					<span class="font-bold">Status:</span> ${response.data.status}
+				
 				</p>
 				<p class="text-gray-700">
 					<span class="font-bold">Total Area Panas:</span> ${response.data.prediksi}
+				
 				</p>
 				<p class="text-gray-700">
 					<span class="font-bold">Prediksi Tanggal Perbaikan:</span> ${response.data.prediksi_tgl}
+				
 				</p>
 				<p class="text-gray-700">
 					<span class="font-bold">Suhu Kabel:</span> ${suhu}°C
+				
 				</p>
                     `;
             document.getElementById("submit_data").classList.remove("hidden");

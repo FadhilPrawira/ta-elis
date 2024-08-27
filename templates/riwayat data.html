@@ -239,98 +239,102 @@
                   const row = document.createElement("tr");
                   row.innerHTML = `
                                 
-					<td class="px-6 py-4 border">${instalasi.nama_instalasi}</td>
-					<td class="px-6 py-4 border">${formatDate(instalasi.tgl_pengecekan)}</td>
+					
+			<td class="px-6 py-4 border">${instalasi.nama_instalasi}</td>
+			<td class="px-6 py-4 border">${formatDate(instalasi.tgl_pengecekan)}</td>
+			<td class="px-6 py-4 border">
+				<div class="w-64">
+					<img class="w-full h-full object-cover" src="${instalasi.gambar_asli}" alt="">
+					</div>
+				</td>
+				<td class="px-6 py-4 border">
+					<div class="w-64">
+						<img class="w-full h-full object-cover" src="${instalasi.gambar_flir}" alt="">
+						</div>
+					</td>
 					<td class="px-6 py-4 border">
-						<div class="w-64">
-							<img class="w-full h-full object-cover" src="${instalasi.gambar_asli}" alt="">
+						<div class="w-80">
+							<img class="w-full h-full object-cover" src="${instalasi.gambar_hasil}" alt="">
 							</div>
 						</td>
 						<td class="px-6 py-4 border">
-							<div class="w-64">
-								<img class="w-full h-full object-cover" src="${instalasi.gambar_flir}" alt="">
+							<div class="w-full h-full grid gap-8">
+								<div class="w-40"> Suhu pengecekan : ${instalasi.suhu_kabel}</div>
+								<hr>
+									<div class="w-40">${
+                    historyItem.status === "Aman"
+                      ? "Tidak perlu diperbaiki"
+                      : historyItem.suhu_perbaikan === 0 ||
+                        historyItem.suhu_perbaikan === null
+                      ? "Belum dilakukan pengecekan suhu"
+                      : "Suhu setelah perbaikan : ".concat(
+                          historyItem.suhu_perbaikan
+                        )
+                  }</div>
 								</div>
 							</td>
 							<td class="px-6 py-4 border">
-								<div class="w-80">
-									<img class="w-full h-full object-cover" src="${instalasi.gambar_hasil}" alt="">
+								<div class="w-full h-full grid gap-8">
+									<div class="w-40">${historyItem.status}</div>
+									<hr>
+										<div class="w-40">${
+                      historyItem.status === "Aman"
+                        ? "Tidak perlu diperbaiki"
+                        : historyItem.progres == 1
+                        ? "Menunggu perbaikan"
+                        : historyItem.progres == 2
+                        ? "Pemantauan serius"
+                        : historyItem.progres == 3
+                        ? "Dalam Perbaikan"
+                        : historyItem.progres == 4 &&
+                          historyItem.tgl_perbaikan != null
+                        ? historyItem.status_akhir
+                        : historyItem.progres == 4
+                        ? "Perbaikan Selesai"
+                        : "Belum Diperbaiki"
+                    }</div>
 									</div>
 								</td>
 								<td class="px-6 py-4 border">
 									<div class="w-full h-full grid gap-8">
-										<div class="w-40"> Suhu pengecekan : ${instalasi.suhu_kabel}</div>
+										<div class="w-40">Total Area panas sebelum perbaikan: ${
+                      historyItem.prediksi
+                    }</div>
 										<hr>
 											<div class="w-40">${
                         historyItem.status === "Aman"
                           ? "Tidak perlu diperbaiki"
-                          : historyItem.suhu_perbaikan === 0 ||
-                            historyItem.suhu_perbaikan === null
-                          ? "Belum dilakukan pengecekan suhu"
-                          : "Suhu setelah perbaikan : ".concat(
-                              historyItem.suhu_perbaikan
-                            )
+                          : historyItem.status_akhir === ""
+                          ? "Belum diprediksi"
+                          : "Total Area panas setelah perbaikan: 0"
                       }</div>
 										</div>
 									</td>
 									<td class="px-6 py-4 border">
-										<div class="w-full h-full grid gap-8">
-											<div class="w-40">${historyItem.status}</div>
+										<div class="w-40">
+											<div class="w-40">${
+                        historyItem.status === "Aman"
+                          ? "Tidak perlu diperbaiki"
+                          : historyItem.tgl_perbaikan == null
+                          ? "Belum dilakukan perbaikan"
+                          : `Tanggal Perbaikan : ${formatDate(
+                              historyItem.tgl_perbaikan
+                            )}`
+                      }
+                                    </div>
 											<hr>
 												<div class="w-40">${
-                          historyItem.status === "Aman"
-                            ? "Tidak perlu diperbaiki"
-                            : historyItem.progres == 1
-                            ? "Menunggu perbaikan"
-                            : historyItem.progres == 2
-                            ? "Pemantauan serius"
-                            : historyItem.progres == 3
-                            ? "Dalam Perbaikan"
-                            : historyItem.progres == 4 &&
-                              historyItem.tgl_perbaikan != null
-                            ? historyItem.status_akhir
-                            : historyItem.progres == 4
-                            ? "Perbaikan Selesai"
-                            : "Belum Diperbaiki"
-                        }</div>
-											</div>
-										</td>
-										<td class="px-6 py-4 border">
-											<div class="w-full h-full grid gap-8">
-												<div class="w-40">Total Area panas sebelum perbaikan: ${
-                          historyItem.prediksi
-                        }</div>
-												<hr>
-													<div class="w-40">${
-                            historyItem.status === "Aman"
-                              ? "Tidak perlu diperbaiki"
-                              : historyItem.status_akhir === ""
-                              ? "Belum diprediksi"
-                              : "Total Area panas setelah perbaikan: 0"
-                          }</div>
-												</div>
-											</td>
-											<td class="px-6 py-4 border">
-												<div class="w-40">
-													<div class="w-40">${
-                            historyItem.status === "Aman"
-                              ? "Tidak perlu diperbaiki"
-                              : historyItem.tgl_perbaikan == null
-                              ? "Belum dilakukan perbaikan"
-                              : `Tanggal Perbaikan : ${formatDate(
-                                  historyItem.tgl_perbaikan
-                                )}`
-                          }
-                                    </div>
-													<div class="w-40">${
-                            historyItem.foto_perbaikan == null
-                              ? "Belum ada foto perbaikan"
-                              : `
-														<div>
-															<img src="${historyItem.foto_perbaikan}" class="w-full h-auto" alt="">`
-                          }
+                          historyItem.foto_perbaikan == null
+                            ? "Belum ada foto perbaikan"
+                            : `
+														
+													<div>
+														<img src="${historyItem.foto_perbaikan}" class="w-full h-auto" alt="">`
+                        }
                                     
-															</div>
-														</td>`;
+															
+														</div>
+													</td>`;
                   console.log(historyItem.foto_perbaikan);
                   tableBody.appendChild(row);
                 });
@@ -340,7 +344,8 @@
                 const row = document.createElement("tr");
                 row.innerHTML = `
                                 
-														<td class="px-6 py-4 border text-center" colspan="9">No Data Available</td>`;
+														
+													<td class="px-6 py-4 border text-center" colspan="9">No Data Available</td>`;
                 tableBody.appendChild(row);
               }
             });
