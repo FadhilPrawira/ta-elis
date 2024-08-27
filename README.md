@@ -140,9 +140,9 @@ It should display the Flask app. But when you try to add a new data, it will sho
 
 30. `sudo apt install gunicorn3`
 
-31. Try running it with `gunicorn3 --bind 0.0.0.0:5000 app:app`
+31. Try running it with `gunicorn3 --bind 0.0.0.0:5000 --timeout 600 app:app`
 
-32. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 app:app --daemon`
+32. If it works, run as a daemon with `gunicorn3 --bind 0.0.0.0:5000 --timeout 600 app:app --daemon`
 
 You can close the terminal now.
 
@@ -333,6 +333,24 @@ If you like Certbot, please consider supporting our work by:
 12. `sudo systemctl status snap.certbot.renew.service`
 
 13. `sudo certbot renew --dry-run`
+
+### Kill Gunicorn
+
+1. `ps ax|grep gunicorn`
+
+```
+ta-elisrara@TA-ElisRara:~$ ps ax|grep gunicorn
+  19309 pts/2    S+     0:01 /usr/bin/python3 /usr/bin/gunicorn3 --bind 0.0.0.0:5000 --timeout 600 app:app
+  19318 pts/2    S+     0:28 /usr/bin/python3 /usr/bin/gunicorn3 --bind 0.0.0.0:5000 --timeout 600 app:app
+  19720 pts/0    S+     0:00 grep --color=auto gunicorn
+```
+
+2. `kill -9 <PID_NUMBER>`
+
+```
+kill -9 19309
+kill -9 19318
+```
 
 ## TODO:
 
