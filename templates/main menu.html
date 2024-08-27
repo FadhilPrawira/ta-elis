@@ -514,6 +514,7 @@
         .getElementById(`foto_perbaikan-${history.id}`)
         .addEventListener("change", function () {
           submitFotoPerbaikan(history.id);
+          location.reload();
         });
 
       function submitTanggal(id) {
