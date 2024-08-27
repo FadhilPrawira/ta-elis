@@ -112,6 +112,7 @@ EXIT;
 ```
 server {
     listen 80;
+    client_max_body_size 16M;
     server_name tamonitoringkabel.my.id www.tamonitoringkabel.my.id;
     location / {
         proxy_pass http://127.0.0.1:5000;
@@ -248,6 +249,7 @@ So it change like this:
     server {
     include snippets/phpmyadmin.conf;
     listen 80;
+    client_max_body_size 16M;
     server_name tamonitoringkabel.my.id www.tamonitoringkabel.my.id;
     location / {
         proxy_pass http://127.0.0.1:5000;
