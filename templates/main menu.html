@@ -485,8 +485,10 @@
         xhr.onload = function () {
           if (this.status == 200) {
             alert("Foto berhasil disimpan!");
+            location.reload();
           } else {
             alert("Terjadi kesalahan saat menyimpan foto");
+            location.reload();
           }
         };
         xhr.send(formData);
@@ -514,7 +516,6 @@
         .getElementById(`foto_perbaikan-${history.id}`)
         .addEventListener("change", function () {
           submitFotoPerbaikan(history.id);
-          location.reload();
         });
 
       function submitTanggal(id) {
