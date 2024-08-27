@@ -263,7 +263,8 @@
 											<div class="w-40">${
                         historyItem.status === "Aman"
                           ? "Tidak perlu diperbaiki"
-                          : historyItem.suhu_perbaikan == 0
+                          : historyItem.suhu_perbaikan === 0 ||
+                            historyItem.suhu_perbaikan === null
                           ? "Belum dilakukan pengecekan suhu"
                           : "Suhu setelah perbaikan : ".concat(
                               historyItem.suhu_perbaikan
@@ -322,7 +323,7 @@
                                     </div>
 													<div class="w-40">${
                             historyItem.foto_perbaikan == null
-                              ? "Belum dilakukan perbaikan"
+                              ? "Belum ada foto perbaikan"
                               : `
 														<div>
 															<img src="${historyItem.foto_perbaikan}" class="w-full h-auto" alt="">`
