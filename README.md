@@ -17,6 +17,29 @@ Based on [How to Deploy Flask with Gunicorn and Nginx (on Ubuntu) by Tony Teache
 
 2. Go to DNS Management and add an A record with the IP address of the server
 
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>TTL</th>
+        <th>Priority</th>
+    </tr>
+    <tr>
+        <td>A</td>
+        <td>@</td>
+        <td>&lt;YOUR IP ADDRESS&gt;</td>
+        <td>3600</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>A</td>
+        <td>www</td>
+        <td>&lt;YOUR IP ADDRESS&gt;</td>
+        <td>3600</td>
+        <td>-</td>
+</table>
+
 3. Wait for the DNS to propagate. You can check the propagation status using [DNS Checker](https://dnschecker.org/). It may take up to 48 hours.
 
 ### Setting database
@@ -29,8 +52,8 @@ Based on [How to Deploy Flask with Gunicorn and Nginx (on Ubuntu) by Tony Teache
 Enter current password for root (enter for none): [enter]
 Switch to unix_socket authentication [Y/n] y
 Change the root password? [Y/n] y
-New password:
-Re-enter new password:
+New password:<YOUR_NEW_PASSWORD>
+Re-enter new password:<YOUR_NEW_PASSWORD>
 Remove anonymous users? [Y/n] y
 Disallow root login remotely? [Y/n] n
 Remove test database and access to it? [Y/n] y
@@ -78,33 +101,13 @@ EXIT;
 
 9. `mysql -u root -p sql6709970 < sql6709970.sql`
 
-10. `pip3 install Werkzeug==2.2.2`
+10. `sudo apt install pkg-config libmariadb-dev libgl1-mesa-glx`
 
-11. `pip3 install flask==2.1.3`
+11. `pip3 install Werkzeug==2.2.2 Flask==2.1.3 Flask-MySQLdb==1.0.1 Flask-Login==0.6.3 numpy==1.26.4 opencv_python==4.8.1.78 matplotlib==3.8.2 joblib mysql-connector scikit-learn==1.5.1`
 
-12. `sudo apt install pkg-config`
+12. `pip3 install ultralytics==8.2.50 --no-cache-dir`
 
-13. `sudo apt install libmariadb-dev`
-
-14. `pip3 install flask_mysqldb`
-
-15. `pip3 install flask_login`
-
-16. `pip3 install numpy==1.26.4`
-
-17. `pip3 install opencv_python==4.8.1.78`
-
-18. `sudo apt install libgl1-mesa-glx`
-
-19. `pip3 install matplotlib==3.8.2`
-
-20. `pip3 install joblib mysql-connector`
-
-21. `pip3 install scikit-learn`
-
-22. `pip3 install ultralytics --no-cache-dir`
-
-23. `sudo nano /etc/nginx/sites-enabled/flask_app`
+13. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
 ```
 server {
@@ -145,7 +148,60 @@ You can close the terminal now.
 
 ### Setting PHPMyAdmin
 
-1. `sudo apt install php8.1-fpm`
+1. `sudo apt install php8.1-fpm phpmyadmin`
+
+```
+[Configuring phpmyadmin]
+
+Please choose the web server that should be automatically configured to run phpMyAdmin.
+
+Web server to reconfigure automatically:
+[ ] apache2
+[ ] lighttpd
+<Ok>
+```
+
+Just click OK using `TAB`
+
+```
+[Configuring phpmyadmin]
+
+The phpmyadmin package must have a database installed and configured before it can be used. This can be optionally handled with dbconfig-common.
+
+If you are an advanced database administrator and know that you want to perform this configuration manually, or if your database has already been installed and configured, you should refuse this option. Details on what needs to be done should most likely be provided in /usr/share/doc/phpmyadmin.
+
+Otherwise, you should probably choose this option.
+
+Configure database for phpmyadmin with dbconfig-common?
+
+<Yes>                            <No>
+```
+
+Choose `Yes`
+
+```
+[Configuring phpmyadmin]
+Please provide a password for phpmyadmin to register with the database server. If left blank, a random password will be generated.
+
+MySQL application password for phpmyadmin:
+
+___________________________________________
+
+<Ok>                            <Cancel>
+```
+
+Enter the password for the MySQL database.
+
+```
+[Configuring phpmyadmin]
+Password confirmation:
+
+_________________________________
+
+<Ok>          <Cancel>
+```
+
+Enter the MySQL password again.
 
 2. `sudo apt install phpmyadmin`
 
@@ -180,7 +236,13 @@ location /phpmyadmin {
 
 5. `sudo nano /etc/nginx/sites-enabled/flask_app`
 
-Change it to this:
+Add this line
+
+```
+include snippets/phpmyadmin.conf;
+```
+
+So it change like this:
 
 ```
     server {
@@ -225,6 +287,48 @@ Change it to this:
 10. `sudo ufw status`
 
 11. `sudo certbot --nginx -d tamonitoringkabel.my.id -d www.tamonitoringkabel.my.id`
+
+```
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Enter email address (used for urgent renewal and security notices)
+ (Enter 'c' to cancel): <YOUR_EMAIL_ADDRESS>
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.4-April-3-2024.pdf. You must agree in
+order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: y
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let's Encrypt project and the non-profit organization that
+develops Certbot? We'd like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: n
+Account registered.
+Requesting a certificate for tamonitoringkabel.my.id and www.tamonitoringkabel.my.id
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/tamonitoringkabel.my.id/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/tamonitoringkabel.my.id/privkey.pem
+This certificate expires on 2024-11-25.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for tamonitoringkabel.my.id to /etc/nginx/sites-enabled/flask_app
+Successfully deployed certificate for www.tamonitoringkabel.my.id to /etc/nginx/sites-enabled/flask_app
+Congratulations! You have successfully enabled HTTPS on https://tamonitoringkabel.my.id and https://www.tamonitoringkabel.my.id
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
 
 12. `sudo systemctl status snap.certbot.renew.service`
 
