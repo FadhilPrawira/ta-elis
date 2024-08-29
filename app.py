@@ -35,7 +35,6 @@ app.config['UPLOAD_FOLDER'] = './static/uploads'
 app.config['STATUS'] = ''
 app.config['HOT_AREA'] = ''
 app.config['PREDIKSI_TANGGAL'] = ''
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
 
 mysql = MySQL(app)
 
@@ -95,7 +94,7 @@ def resize_image(image, target_size=500):
 ##PEDIKSI TANGGAL PERBAIKAN##
 #Menarik Data dari Basis Data
 def data(safety_level):
-    mysql = connection.connect(host=app.config['MYSQL_HOST'], database=app.config['MYSQL_DB'], user=app.config['MYSQL_USER'], passwd=app.config['MYSQL_PASSWORD'],use_pure=True)
+    mysql = connection.connect(host='sql6.freesqldatabase.com', database='sql6709970',user='sql6709970',passwd='gTUGfbb99U',use_pure=True)
     ins_df = pd.read_sql("SELECT * FROM instalasi",mysql)
     nama_instalasi = request.form['property_name']
     print(nama_instalasi)
@@ -150,6 +149,7 @@ def detect_and_segment_object(original_image_path, flir_image_path, target_size=
 
     resized_original_image = resize_image(original_image, target_size)
     resized_flir_image = resize_image(flir_image, target_size)
+    resized_flir_image2 = resize_image(flir_image, target_size)
 
     # Bagian deteksi jaringan saraf tiruan
     def detect_cnn(flir_image_path):
@@ -213,26 +213,26 @@ def detect_and_segment_object(original_image_path, flir_image_path, target_size=
     hot_area_edges = cv2.Canny(hot_mask_image2, 100, 200)
 
    # Resize hot_mask_image1 to match the size of flir_image
-    hot_mask_image1_resized = cv2.resize(hot_mask_image1, (flir_image.shape[1], flir_image.shape[0]))
+    hot_mask_image1_resized = cv2.resize(hot_mask_image1, (target_size, target_size))
     # Add the resized hot_mask_image1 onto original_image with blending
-    blended_image1 = cv2.addWeighted(flir_image, 0.45, hot_mask_image1_resized, 0.55, 0)
+    blended_image1 = cv2.addWeighted(resized_flir_image2, 0.45, hot_mask_image1_resized, 0.55, 0)
 
        # Resize hot_mask_image1 to match the size of flir_image
-    hot_mask_image2_resized = cv2.resize(hot_mask_image2, (flir_image.shape[1], flir_image.shape[0]))
+    hot_mask_image2_resized = cv2.resize(hot_mask_image2, (target_size, target_size))
     # Add the resized hot_mask_image1 onto original_image with blending
-    blended_image2 = cv2.addWeighted(flir_image, 0.2, hot_mask_image2_resized, 0.8, 0)
+    blended_image2 = cv2.addWeighted(resized_flir_image2, 0.2, hot_mask_image2_resized, 0.8, 0)
 
     # Membuat Plot Gambar
     # Function to determine safety level based on suhu
     plt.figure(figsize=(9, 6))
     plt.subplot(2, 3, 1)
-    plt.imshow(cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
+    plt.imshow(cv2.cvtColor(resized_original_image, cv2.COLOR_BGR2RGB))
     plt.title('Gambar Asli')
     plt.axis('off')
 
     # Display the original FLIR image
     plt.subplot(2, 3, 2)
-    plt.imshow(cv2.cvtColor(flir_image, cv2.COLOR_BGR2RGB))
+    plt.imshow(cv2.cvtColor(resized_flir_image2, cv2.COLOR_BGR2RGB))
     plt.title('Gambar FLIR')
     plt.axis('off')
 
@@ -449,4 +449,4 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=True)
