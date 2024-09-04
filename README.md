@@ -147,11 +147,62 @@ It should display the Flask app. But when you try to add a new data, it will sho
 
 You can close the terminal now.
 
+### Setting as service
+
+1. Create a new systemd service file:
+
+```bash
+sudo nano /etc/systemd/system/web_elis_rara.service
+```
+
+2. Add the following configuration to the file:
+
+```ini
+[Unit]
+Description=Python app.py service for web_elis_rara
+After=network.target
+
+[Service]
+User=ta-elisrara
+Group=ta-elisrara
+WorkingDirectory=/var/www/ta-elis
+ExecStart=/usr/bin/gunicorn3 --bind 0.0.0.0:5000 --worker-class gevent --timeout 600 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+3. Reload systemd to recognize the new service:
+
+```bash
+sudo systemctl daemon-reload
+```
+
+4. Start the service:
+
+```bash
+sudo systemctl start web_elis_rara
+```
+
+5. Enable the service to start on boot:
+
+```bash
+sudo systemctl enable web_elis_rara
+```
+
+6. Check the status of your service to ensure it is running correctly:
+
+```bash
+sudo systemctl status web_elis_rara
+```
+
 ### Setting PHPMyAdmin
 
 1. `sudo apt install php8.1-fpm phpmyadmin`
 
 ```
+
 [Configuring phpmyadmin]
 
 Please choose the web server that should be automatically configured to run phpMyAdmin.
@@ -160,11 +211,13 @@ Web server to reconfigure automatically:
 [ ] apache2
 [ ] lighttpd
 <Ok>
+
 ```
 
 Just click OK using `TAB`
 
 ```
+
 [Configuring phpmyadmin]
 
 The phpmyadmin package must have a database installed and configured before it can be used. This can be optionally handled with dbconfig-common.
@@ -175,31 +228,36 @@ Otherwise, you should probably choose this option.
 
 Configure database for phpmyadmin with dbconfig-common?
 
-<Yes>                            <No>
+<Yes> <No>
+
 ```
 
 Choose `Yes`
 
 ```
+
 [Configuring phpmyadmin]
 Please provide a password for phpmyadmin to register with the database server. If left blank, a random password will be generated.
 
 MySQL application password for phpmyadmin:
 
-___________________________________________
+---
 
-<Ok>                            <Cancel>
+<Ok> <Cancel>
+
 ```
 
 Enter the password for the MySQL database.
 
 ```
+
 [Configuring phpmyadmin]
 Password confirmation:
 
-_________________________________
+---
 
-<Ok>          <Cancel>
+<Ok> <Cancel>
+
 ```
 
 Enter the MySQL password again.
