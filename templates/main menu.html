@@ -239,7 +239,7 @@
               const tableBody = document.getElementById("table-body");
               const filteredHistoryData = historyData.data.filter(
                 (history) =>
-                  history.status_akhir !== "Aman" && history.status != "Aman"
+                  history.status_akhir !== "Aman" && history.status !== "Aman"
               );
               if (filteredHistoryData && filteredHistoryData.length > 0) {
                 filteredHistoryData.forEach((history) => {
@@ -361,7 +361,7 @@
 
       							
 								
-								<td class="px-6 py-4 border text-center" colspan="6">
+								<td class="px-6 py-4 border text-center" colspan="8">
                       No data available
                       </td>
 

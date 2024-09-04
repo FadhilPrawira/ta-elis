@@ -324,7 +324,10 @@
                                     </div>
 											<hr>
 												<div class="w-40">${
-                          historyItem.foto_perbaikan == null
+                          historyItem.foto_perbaikan == null &&
+                          historyItem.status == "Aman"
+                            ? "Tidak perlu diperbaiki"
+                            : historyItem.foto_perbaikan == null
                             ? "Belum ada foto perbaikan"
                             : `
 														

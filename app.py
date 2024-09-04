@@ -233,7 +233,7 @@ def detect_and_segment_object(original_image_path, flir_image_path, target_size=
     # Display the original FLIR image
     plt.subplot(2, 3, 2)
     plt.imshow(cv2.cvtColor(resized_flir_image2, cv2.COLOR_BGR2RGB))
-    plt.title('Gambar FLIR')
+    plt.title('Gambar Termal')
     plt.axis('off')
 
     # Display the image with hot-marked areas (deteksi)
